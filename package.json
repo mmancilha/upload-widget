@@ -1,0 +1,13 @@
+{
+  "name": "upload-widget-web",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -n \"SERVER,WEB\" -c \"blue,green\" \"pnpm --filter 04-upload-server dev\" \"pnpm --filter web dev\"",
+    "dev:server": "pnpm --filter 04-upload-server dev",
+    "dev:web": "pnpm --filter web dev"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
