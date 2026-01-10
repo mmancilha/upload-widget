@@ -1,27 +1,15 @@
 import * as Collapsible from "@radix-ui/react-collapsible";
-import { Upload } from "lucide-react";
-import { Button } from "./ui/button";
-import { UploadWidget } from "./upload-widget";
+import { Maximize2 } from "lucide-react";
+import { UploadWidgetTitle } from "./upload-widget-title";
 
-interface UploadWidgetMinimizedButtonProps {
-  isWidgetOpen: boolean;
-  onOpenWidget: () => void;
-}
-
-export function UploadWidgetMinimizedButton({
-  isWidgetOpen,
-  onOpenWidget,
-}: UploadWidgetMinimizedButtonProps) {
-  if (isWidgetOpen) return null;
-
+export function UploadWidgetMinimizedButton() {
   return (
-    <Button
-      variant="default"
-      size="icon"
-      className="fixed bottom-4 right-4 rounded-full shadow-lg"
-      onClick={onOpenWidget}
-    >
-      <Upload className="size-4" />
-    </Button>
+    <Collapsible.Trigger className="group w-full bg-white/2 py-3 px-5 flex items-center justify-between">
+      <UploadWidgetTitle />
+      <Maximize2
+        strokeWidth={1.5}
+        className="size-4 text-zinc-400 group-hover:text-zinc-50 transition-colors"
+      />
+    </Collapsible.Trigger>
   );
 }
