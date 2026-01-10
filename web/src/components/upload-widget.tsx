@@ -23,7 +23,7 @@ export function UploadWidget() {
           </div>
         </div>
       </Collapsible.Content>
-      <UploadWidgetMinimizedButton />
+      {!isOpen && <UploadWidgetMinimizedButton />}
     </Collapsible.Root>
   );
 }
