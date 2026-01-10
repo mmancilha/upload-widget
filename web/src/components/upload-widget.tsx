@@ -2,10 +2,14 @@ import { UploadWidgetDropzone } from "./upload-widget-dropzone";
 import { UploadWidgetHeader } from "./upload-widget-header";
 import { UploadWidgetUploadList } from "./upload-widget-upload-list";
 
-export function UploadWidget() {
+interface UploadWidgetProps {
+  onMinimize: () => void;
+}
+
+export function UploadWidget({ onMinimize }: UploadWidgetProps) {
   return (
     <div className="bg-zinc-900 w-full overflow-hidden max-w-[360px] rounded-xl shadow-shape">
-      <UploadWidgetHeader />
+      <UploadWidgetHeader onMinimize={onMinimize} />
 
       <div className="flex flex-col gap-4 py-3">
         <UploadWidgetDropzone />
