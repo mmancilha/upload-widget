@@ -21,12 +21,12 @@ export function UploadWidgetDropzone() {
       >
         <input type="file" {...getInputProps()} />
 
-        <span className="text-xs">Drop your files here or</span>
-        <span className="text-xs underline">click to open picker</span>
+        <span className="text-xs">Drag & drop your files here or</span>
+        <span className="text-xs underline">Choose files</span>
       </div>
 
       <span className="text-xs text-zinc-400">
-        Only PNG and JPG files are supported.
+        Only PNG and JPG (4mb max)
       </span>
     </div>
   );
