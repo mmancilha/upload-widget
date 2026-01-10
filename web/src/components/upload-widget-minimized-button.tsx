@@ -1,19 +1,25 @@
+import * as Collapsible from "@radix-ui/react-collapsible";
 import { Upload } from "lucide-react";
 import { Button } from "./ui/button";
+import { UploadWidget } from "./upload-widget";
 
 interface UploadWidgetMinimizedButtonProps {
-  onOpen: () => void;
+  isWidgetOpen: boolean;
+  onOpenWidget: () => void;
 }
 
 export function UploadWidgetMinimizedButton({
-  onOpen,
+  isWidgetOpen,
+  onOpenWidget,
 }: UploadWidgetMinimizedButtonProps) {
+  if (isWidgetOpen) return null;
+
   return (
     <Button
       variant="default"
       size="icon"
       className="fixed bottom-4 right-4 rounded-full shadow-lg"
-      onClick={onOpen}
+      onClick={onOpenWidget}
     >
       <Upload className="size-4" />
     </Button>

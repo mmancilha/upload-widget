@@ -1,6 +1,7 @@
 import { tv, type VariantProps } from "tailwind-variants";
 import { Slot } from "@radix-ui/react-slot";
 import { forwardRef } from "react";
+import { twMerge } from "tailwind-merge";
 
 const buttonVariants = tv({
   base: "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:pointer-events-none disabled:opacity-50",
@@ -33,7 +34,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
-        className={buttonVariants({ variant, size, className })}
+        className={twMerge(buttonVariants({ variant, size }), className)}
         ref={ref}
         {...props}
       />
