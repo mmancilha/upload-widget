@@ -2,7 +2,9 @@
 
 Um widget moderno e funcional para upload de imagens com compressão automática, progresso em tempo real e integração com Cloudflare R2.
 
-![Upload Widget Overview](docs/widget-overview.png)
+![Upload Widget Overview](https://www.figma.com/design/8ZgQJHrPJGNmtwzsxEYMTH/Widget-de-Upload--Community-?node-id=3-809&m=dev)
+
+> Design completo disponível no [Figma](https://www.figma.com/design/8ZgQJHrPJGNmtwzsxEYMTH/Widget-de-Upload--Community-?node-id=3-809&m=dev)
 
 ## 🚀 Funcionalidades
 
