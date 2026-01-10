@@ -4,11 +4,11 @@ import { UploadWidgetTitle } from "./upload-widget-title";
 
 export function UploadWidgetMinimizedButton() {
   return (
-    <Collapsible.Trigger className="group w-full bg-white/2 py-3 px-5 flex items-center justify-between data-[state=open]:hidden">
+    <Collapsible.Trigger className="group w-full bg-white/2 py-3 px-5 flex items-center justify-between gap-5">
       <UploadWidgetTitle />
       <Maximize2
         strokeWidth={1.5}
-        className="size-4 text-zinc-400 group-hover:text-zinc-50 transition-colors"
+        className="size-4 text-zinc-400 group-hover:text-zinc-100"
       />
     </Collapsible.Trigger>
   );
