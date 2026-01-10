@@ -22,20 +22,10 @@ export default {
       },
       animation: {
         border: "border 2s linear infinite",
-        "collapsible-down": "collapsible-down 0.2s ease-out",
-        "collapsible-up": "collapsible-up 0.2s ease-out",
       },
       keyframes: {
         border: {
           to: { "--border-angle": "360deg" },
-        },
-        "collapsible-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-collapsible-content-height)" },
-        },
-        "collapsible-up": {
-          from: { height: "var(--radix-collapsible-content-height)" },
-          to: { height: "0" },
         },
       },
     },
