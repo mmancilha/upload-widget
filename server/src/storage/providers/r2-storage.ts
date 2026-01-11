@@ -2,6 +2,7 @@ import { S3Client } from '@aws-sdk/client-s3'
 import { Upload } from '@aws-sdk/lib-storage'
 import type { StorageProvider, UploadFileAsStreamInput } from "../storage";
 import { basename, extname } from 'node:path';
+import { randomUUID } from 'node:crypto';
 import { env } from '../../env';
 
 export class R2StorageProvider implements StorageProvider {
@@ -22,8 +23,9 @@ export class R2StorageProvider implements StorageProvider {
     const ext = extname(fileName)
     const baseName = basename(fileName, ext)
     const sanitizedBaseName = baseName.replace(/[^a-zA-Z0-9]/g, '')
+    const uniquePrefix = randomUUID().slice(0, 8)
   
-    return sanitizedBaseName.concat(ext)
+    return `${uniquePrefix}-${sanitizedBaseName}${ext}`
   }
 
   public async uploadFileAsStream({

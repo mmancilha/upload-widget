@@ -6,6 +6,7 @@ const envSchema = z.object({
   CLOUDFLARE_BUCKET: z.string(),
   CLOUDFLARE_ACCOUNT_ID: z.string(),
   CLOUDFLARE_PUBLIC_URL: z.string().url(),
+  FRONTEND_URL: z.string().url().optional(),
 })
 
 export const env = envSchema.parse(process.env)
