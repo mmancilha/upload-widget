@@ -2,20 +2,55 @@ import { useDropzone } from "react-dropzone";
 import CircularProgressBar from "./ui/circular-progress-bar";
 import { motion } from "motion/react";
 import { usePendingUploads, useUploads } from "../store/uploads";
+import { useState, useEffect } from "react";
 
 export function UploadWidgetDropzone() {
   const addUploads = useUploads((store) => store.addUploads);
   const amountOfUploads = useUploads((store) => store.uploads.size);
   const { isThereAnyPendingUploads, globalPercentage } = usePendingUploads();
+  const [validationError, setValidationError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (validationError) {
+      const timer = setTimeout(() => {
+        setValidationError(null);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [validationError]);
+
+  const handleValidationError = (message: string) => {
+    setValidationError(message);
+  };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     multiple: true,
     accept: {
       "image/jpeg": [],
       "image/png": [],
+      "image/webp": [],
     },
     onDrop(acceptedFiles) {
-      addUploads(acceptedFiles);
+      setValidationError(null);
+      addUploads(acceptedFiles, handleValidationError);
+    },
+    onDropRejected(fileRejections) {
+      const rejection = fileRejections[0];
+      if (rejection) {
+        const error = rejection.errors[0];
+        if (error.code === "file-invalid-type") {
+          handleValidationError(
+            `File type is not supported. Only PNG, JPG, and WebP files are allowed.`
+          );
+        } else if (error.code === "file-too-large") {
+          handleValidationError(
+            `File "${rejection.file.name}" exceeds the maximum size of 4MB.`
+          );
+        } else {
+          handleValidationError(error.message || "File was rejected.");
+        }
+      }
     },
   });
   return (
@@ -54,8 +89,14 @@ export function UploadWidgetDropzone() {
       </div>
 
       <span className="text-xxs text-zinc-400">
-        Only PNG and JPG files are supported.
+        Only PNG, JPG, and WebP files are supported.
       </span>
+
+      {validationError && (
+        <span className="text-xxs text-red-400 animate-in fade-in duration-200">
+          {validationError}
+        </span>
+      )}
     </motion.div>
   );
 }

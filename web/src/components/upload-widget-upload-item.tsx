@@ -73,6 +73,12 @@ export function UploadWidgetUploadItem({
             <span className="text-yellow-400">Canceled</span>
           )}
         </span>
+
+        {upload.status === "error" && upload.errorMessage && (
+          <span className="text-xxs text-red-400 mt-1">
+            {upload.errorMessage}
+          </span>
+        )}
       </div>
 
       <Progress.Root
