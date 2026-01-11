@@ -29,6 +29,7 @@ Widget moderno para upload de imagens com compressão automática, progresso em 
 ## 🛠️ Tecnologias Utilizadas
 
 ### Frontend
+
 - **React 18** - Biblioteca UI
 - **TypeScript** - Tipagem estática
 - **Vite** - Build tool e dev server
@@ -41,6 +42,7 @@ Widget moderno para upload de imagens com compressão automática, progresso em 
 - **Lucide React** - Ícones modernos
 
 ### Backend
+
 - **Fastify** - Framework web rápido
 - **AWS SDK** - Integração com Cloudflare R2 (S3-compatible)
 - **Zod** - Validação de schemas
@@ -50,23 +52,26 @@ Widget moderno para upload de imagens com compressão automática, progresso em 
 
 ### Pré-requisitos
 
-- **Node.js** 18+ 
+- **Node.js** 18+
 - **pnpm** instalado globalmente
 
 ### Instalação
 
 1. Clone o repositório:
+
 ```bash
 git clone https://github.com/mmancilha/upload-widget.git
 cd upload-widget
 ```
 
 2. Instale as dependências:
+
 ```bash
 pnpm install
 ```
 
 3. Configure as variáveis de ambiente no `server/.env`:
+
 ```env
 CLOUDFLARE_ACCESS_KEY_ID=seu_access_key
 CLOUDFLARE_SECRET_ACCESS_KEY=seu_secret_key
@@ -99,3 +104,7 @@ pnpm dev:web     # Frontend (porta 5173)
 - **✅ Success**: Upload concluído com sucesso
 - **❌ Error**: Erro durante o upload
 - **⏸️ Canceled**: Upload cancelado pelo usuário
+
+---
+
+Made with ❤️ by Maycon Mancilha • Software Engineer
