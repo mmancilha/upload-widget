@@ -1,0 +1,135 @@
+# Mandatory Project Rules (Upload Widget Web)
+
+This file is the **source of truth** for future implementations by the Cursor agent. The agent **MUST** follow these rules. If there is any conflict between preferences and these rules, **these rules win**.
+
+---
+
+## 1) Monorepo architecture (pnpm workspace)
+
+- **Structure**: this repository is a monorepo with two packages:
+  - **`server/`**: Fastify API + storage integration (Cloudflare R2).
+  - **`web/`**: React/Vite widget UI.
+- **Package boundaries (strict)**:
+  - **MUST NOT** import code from `server/` into `web/` (or vice-versa).
+  - **MUST NOT** access another package’s internal files via relative paths (e.g. `../server/...`).
+  - Dependencies and scripts **MUST** be added to the correct package `package.json`.
+- **Scripts**:
+  - Use `pnpm --filter <pkg> ...` to operate on a specific package.
+  - If a new script is needed, add it to the correct package and only expose a root “shortcut” if it truly helps.
+- **Shared code**:
+  - Only create a shared package (e.g. `packages/shared`) if there is real, recurring duplication.
+  - If created, it **MUST** have a stable API, basic tests, and documentation.
+  - It **MUST NOT** cause backend-only dependencies to leak into `web/` (or frontend-only dependencies into `server/`).
+
+---
+
+## 2) `server/` rules (Fastify + Storage)
+
+- **Port/host**: keep backend on **port 3333** and `host: "0.0.0.0"` as in `server/src/server.ts` unless explicitly required otherwise.
+- **Routes**:
+  - Routes live in `server/src/routes/`.
+  - Inputs (body/query/params) **MUST** be validated (Zod) whenever present.
+  - Errors **MUST** be helpful but **MUST NOT** leak sensitive data (secrets, credentials, stack traces).
+- **Storage**:
+  - Providers live in `server/src/storage/providers/`.
+  - Upload use-cases live in `server/src/functions/` (e.g. `upload-image-to-storage.ts`).
+  - Routes **SHOULD** call use-case functions, which call storage. Avoid route-provider tight coupling.
+
+---
+
+## 3) `web/` state management with Zustand (mandatory)
+
+Zustand is the official state management standard for this project.
+
+- **Location**: stores live in `web/src/store/`.
+- **Store design**:
+  - A store defines **state + actions**. Components consume it via selectors.
+  - Prefer intention-revealing actions: `addUploads`, `cancelUpload`, `retryUpload`, etc.
+  - State changes **MUST** happen only inside `set(...)`.
+- **Selectors & performance**:
+  - Prefer narrow selectors; avoid subscribing to the whole store.
+  - Use `zustand/shallow` (e.g. `useShallow`) when returning objects/tuples to reduce re-renders.
+- **Async & side effects**:
+  - Async inside actions is allowed (as in `web/src/store/uploads.ts`).
+  - Cancellation **MUST** be supported when applicable (e.g. `AbortController`) and state transitions must remain consistent.
+  - Do not “fire-and-forget” without updating success/error state.
+- **Persistence**:
+  - Use `persist` only when it provides real UX value.
+  - `partialize` **MUST** persist only the minimum necessary and **MUST NOT** persist non-serializable objects (e.g. `File`, `AbortController`).
+  - If persisting `Map`, implement safe serialization + restoration (custom `getItem/setItem`) as a standard.
+- **Immutability**:
+  - If using `immer`, use `zustand/middleware/immer` and call `enableMapSet()` when using `Map/Set`.
+
+---
+
+## 4) Security & environment variables (mandatory)
+
+### 4.1) Backend env: `server/src/env.ts` is the single source of truth
+
+- All backend environment variables **MUST** be declared and validated in the Zod schema in `server/src/env.ts`.
+- **MUST NOT** use `process.env.X` scattered across the codebase. Use **only** `env.X` imported from `server/src/env.ts`.
+- Current variables (authoritative list):
+  - `CLOUDFLARE_ACCESS_KEY_ID`
+  - `CLOUDFLARE_SECRET_ACCESS_KEY`
+  - `CLOUDFLARE_BUCKET`
+  - `CLOUDFLARE_ACCOUNT_ID`
+  - `CLOUDFLARE_PUBLIC_URL` (must be a valid URL)
+  - `FRONTEND_URL` (optional; must be a valid URL)
+- **Secrets**:
+  - **MUST NOT** log secrets.
+  - **MUST NOT** return secrets in API responses or error payloads.
+  - **MUST NOT** commit `.env` files or credentials.
+
+### 4.2) Frontend env: only `VITE_*`
+
+- In `web/`, env access **MUST** go through `import.meta.env` and **ONLY** keys prefixed with `VITE_`.
+- **MUST NOT** expose secrets to the frontend.
+- If a backend base URL is needed, define something like `VITE_API_URL` and document it.
+
+### 4.3) Env documentation requirement
+
+Any new environment variable requires:
+
+- Updating the backend schema in `server/src/env.ts` (backend) and/or documenting a `VITE_*` variable (frontend).
+- Updating `README.md` (or adding a package-level `.env.example`) with purpose and a safe example.
+
+---
+
+## 5) HTTP integration rules (web -> server)
+
+- `web/` **MUST** call `server/` only over HTTP (never by importing server code).
+- Centralize HTTP calls in `web/src/http/`.
+- Error handling:
+  - User-facing messages must be clear and non-technical.
+  - Logs may include details but **MUST NOT** include sensitive data.
+
+---
+
+## 6) TypeScript conventions
+
+- TypeScript everywhere. Avoid `any` unless strongly justified and localized.
+- Public exports (components, stores, exported functions) **SHOULD** have explicit types.
+- Keep naming consistent with the existing codebase conventions.
+
+---
+
+## 7) Allowed vs forbidden changes
+
+- **Allowed**:
+  - Refactors that reduce coupling without changing behavior.
+  - UX improvements that preserve upload state semantics (progress/success/error/canceled).
+  - Security hardening (env/input validation/CORS) without breaking local dev flow.
+- **Forbidden**:
+  - Accessing `process.env` outside `server/src/env.ts`.
+  - Storing secrets in `web/` or in versioned files.
+  - Importing `server/` from `web/` (or vice-versa).
+  - Persisting `File`, `AbortController`, or sensitive data in `localStorage`.
+
+---
+
+## 8) Fallback decision rule
+
+If a decision is not covered here:
+
+- Prioritize **security**, **monorepo boundaries**, **state clarity (Zustand)**, and **input/env validation**.
+- Follow the established style and patterns already present in the codebase.
