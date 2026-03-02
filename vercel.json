@@ -1,11 +1,14 @@
 {
   "version": 2,
-  "buildCommand": "cd web && pnpm install && pnpm run build",
+  "buildCommand": "pnpm --filter web run build",
   "outputDirectory": "web/dist",
   "framework": null,
   "installCommand": "pnpm install",
   "rewrites": [
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
   ],
   "functions": {
     "api/uploads.ts": {
