@@ -4,12 +4,12 @@ Siga estes passos para configurar o deploy corretamente na Vercel.
 
 ## 1. Root Directory
 
-**Importante:** Defina o **Root Directory** como **`.`** (raiz do repositório).
+**Importante:** Defina o **Root Directory** como **`web`** (pasta do frontend).
 
-Não use `server` — a pasta foi removida na migração. O projeto agora usa:
-- `api/` — Serverless Functions (upload)
-- `lib/` — Código compartilhado (R2)
-- `web/` — Frontend Vite
+O projeto está estruturado em `web/`:
+- `web/api/` — Serverless Functions (upload)
+- `web/lib/` — Código compartilhado (R2)
+- `web/src/` — Frontend Vite
 
 ## 2. Framework Preset
 
@@ -18,8 +18,8 @@ Selecione **Other** ou **Vite**. O `vercel.json` na raiz já define o build.
 ## 3. Build Settings
 
 O `vercel.json` configura automaticamente:
-- **Build Command:** `pnpm --filter web run build`
-- **Output Directory:** `web/dist`
+- **Build Command:** `pnpm run build`
+- **Output Directory:** `dist`
 - **Install Command:** `pnpm install`
 
 Não é necessário alterar nas configurações do projeto — o `vercel.json` tem prioridade.
@@ -46,7 +46,7 @@ Após configurar, clique em **Deploy**.
 
 ## Resumo Rápido
 
-1. Root Directory: **`.`**
+1. Root Directory: **`web`**
 2. Framework: **Other** ou **Vite**
 3. Adicionar as 5 variáveis Cloudflare R2
 4. Deploy
