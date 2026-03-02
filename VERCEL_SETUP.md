@@ -18,7 +18,7 @@ Selecione **Other** ou **Vite**. O `vercel.json` na raiz já define o build.
 ## 3. Build Settings
 
 O `vercel.json` configura automaticamente:
-- **Build Command:** `cd web && pnpm install && pnpm run build`
+- **Build Command:** `pnpm --filter web run build`
 - **Output Directory:** `web/dist`
 - **Install Command:** `pnpm install`
 
