@@ -1,9 +1,9 @@
 import { S3Client } from '@aws-sdk/client-s3'
 import { Upload } from '@aws-sdk/lib-storage'
-import type { StorageProvider, UploadFileAsStreamInput } from "./storage"
+import type { StorageProvider, UploadFileAsStreamInput } from "./storage.js"
 import { basename, extname } from 'node:path'
 import { randomUUID } from 'node:crypto'
-import { env } from './env'
+import { env } from './env.js'
 
 export class R2StorageProvider implements StorageProvider {
   private client: S3Client

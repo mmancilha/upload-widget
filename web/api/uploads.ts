@@ -2,8 +2,8 @@ import type { VercelRequest, VercelResponse } from "@vercel/node"
 import formidable from "formidable"
 import { createReadStream } from "node:fs"
 import { unlink } from "node:fs/promises"
-import { R2StorageProvider } from "../lib/r2-storage"
-import { UploadImageToStorage } from "../lib/upload-image-to-storage"
+import { R2StorageProvider } from "../lib/r2-storage.js"
+import { UploadImageToStorage } from "../lib/upload-image-to-storage.js"
 
 const MAXIMUM_FILE_SIZE_IN_BYTES = 1024 * 1024 * 4 // 4MB
 

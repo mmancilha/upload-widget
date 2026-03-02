@@ -1,4 +1,4 @@
-import type { StorageProvider } from "./storage"
+import type { StorageProvider } from "./storage.js"
 import type { Readable } from "node:stream"
 
 export interface UploadImageToStorageRequest {
