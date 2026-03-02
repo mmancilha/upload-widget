@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "buildCommand": "cd web && pnpm install && pnpm run build",
+  "outputDirectory": "web/dist",
+  "framework": null,
+  "installCommand": "pnpm install",
+  "rewrites": [
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ],
+  "functions": {
+    "api/uploads.ts": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  }
+}

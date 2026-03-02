@@ -17,8 +17,11 @@ export async function uploadFileToStorage(
 
   data.append("file", file);
 
+  const baseUrl = import.meta.env.VITE_API_URL || ""
+  const uploadUrl = baseUrl ? `${baseUrl}/uploads` : "/api/uploads"
+
   const response = await axios.post<{ url: string }>(
-    "http://localhost:3333/uploads",
+    uploadUrl,
     data,
     {
       headers: {

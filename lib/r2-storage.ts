@@ -1,9 +1,9 @@
 import { S3Client } from '@aws-sdk/client-s3'
 import { Upload } from '@aws-sdk/lib-storage'
-import type { StorageProvider, UploadFileAsStreamInput } from "../storage";
-import { basename, extname } from 'node:path';
-import { randomUUID } from 'node:crypto';
-import { env } from '../../env';
+import type { StorageProvider, UploadFileAsStreamInput } from "./storage"
+import { basename, extname } from 'node:path'
+import { randomUUID } from 'node:crypto'
+import { env } from './env'
 
 export class R2StorageProvider implements StorageProvider {
   private client: S3Client
@@ -24,7 +24,7 @@ export class R2StorageProvider implements StorageProvider {
     const baseName = basename(fileName, ext)
     const sanitizedBaseName = baseName.replace(/[^a-zA-Z0-9]/g, '')
     const uniquePrefix = randomUUID().slice(0, 8)
-  
+
     return `${uniquePrefix}-${sanitizedBaseName}${ext}`
   }
 
@@ -44,9 +44,9 @@ export class R2StorageProvider implements StorageProvider {
         ContentType: contentType,
       },
     })
-  
+
     await upload.done()
-  
+
     return {
       url: new URL(key, env.CLOUDFLARE_PUBLIC_URL).toString(),
     }

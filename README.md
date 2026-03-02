@@ -43,7 +43,7 @@ Widget moderno para upload de imagens com compressão automática, progresso em 
 
 ### Backend
 
-- **Fastify** - Framework web rápido
+- **Vercel Serverless Functions** - API serverless
 - **AWS SDK** - Integração com Cloudflare R2 (S3-compatible)
 - **Zod** - Validação de schemas
 - **TypeScript** - Tipagem estática
@@ -70,7 +70,7 @@ cd upload-widget
 pnpm install
 ```
 
-3. Configure as variáveis de ambiente no `server/.env`:
+3. Configure as variáveis de ambiente no `.env` (raiz do projeto):
 
 ```env
 CLOUDFLARE_ACCESS_KEY_ID=seu_access_key
@@ -83,13 +83,18 @@ CLOUDFLARE_PUBLIC_URL=https://seu_dominio.com
 ### Executando a Aplicação
 
 ```bash
-# Executar frontend e backend simultaneamente
+# Desenvolvimento local (requer vercel login)
 pnpm dev
 
-# Ou executar separadamente
-pnpm dev:server  # Backend (porta 3333)
-pnpm dev:web     # Frontend (porta 5173)
+# Build para produção
+pnpm run build
 ```
+
+### Deploy na Vercel
+
+1. Conecte o repositório à Vercel
+2. Configure as variáveis de ambiente no dashboard (Settings > Environment Variables)
+3. O deploy é automático a cada push
 
 ## 📖 Como Funciona
 

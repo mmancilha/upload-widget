@@ -51,7 +51,7 @@ enableMapSet();
 
 type PersistedUpload = Omit<Upload, "file" | "abortController">;
 
-export const useUploads = create<UploadState, [["zustand/immer", never], ["zustand/persist", { uploads: Map<string, Upload> }]]>(
+export const useUploads = create<UploadState, [["zustand/persist", { uploads: (string | PersistedUpload)[][] }], ["zustand/immer", never]]>(
   persist(
     immer((set, get) => {
     function updateUpload(uploadId: string, data: Partial<Upload>) {
