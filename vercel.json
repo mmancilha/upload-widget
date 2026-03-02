@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "pnpm --filter web run build && cp -r web/dist dist",
+  "buildCommand": "pnpm run build",
   "outputDirectory": "dist",
   "framework": null,
   "installCommand": "pnpm install",

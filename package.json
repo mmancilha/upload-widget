@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vercel dev",
-    "build": "cd web && pnpm run build",
+    "build": "pnpm --filter web run build && node -e \"require('fs').cpSync('web/dist','dist',{recursive:true})\"",
     "preview": "vercel dev"
   },
   "dependencies": {
